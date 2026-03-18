@@ -7,10 +7,17 @@ from form import RegisterForm
 
 
 app = Flask(__name__)
+import os
 app.config["SECRET_KEY"] = "your_secret_key_here"
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "postgresql://postgres:Nopassword%4003@localhost/test"
-)
+#app.config["SQLALCHEMY_DATABASE_URI"] = (
+#    "postgresql://postgres:Nopassword%4003@localhost/test"
+#)
+db_url = os.environ.get("DATABASE_URL")
+
+if db_url and db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://social_postsdb_user:o3qocdEPYmmebJ9K2jagu7C5OI5c2kBh@dpg-d6t66jnfte5s73fk24s0-a/social_postsdb"
+
 
 loginmanager = LoginManager()
 loginmanager.init_app(app)
